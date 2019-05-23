@@ -39,7 +39,8 @@ var UIController = (function(){
         subjectInput: 'subject',
         assignmentInput: 'assignment',
         scoreInput: 'score',
-        tableBody: 'container'
+        tableBody: 'container',
+        deleteBtns: '.delete__btn'
     };
 
     //Adding my name to the gradebook
@@ -62,19 +63,29 @@ var UIController = (function(){
             //Run function if the user filled out the entire form
             if(userInputSubject !== '' && userInputAssignment !== '' && userInputScore !== ''){
 
-                var newGradeRow = '<tr><td>' + userInputSubject + '</td><td>' + userInputAssignment + '</td><td>' + userInputScore + '</td></tr>';
+                //Add new row to array and print array to DOM
+                var newGradeRow = '<tr><td>' + userInputSubject + '</td><td>' + userInputAssignment + '</td><td>' + userInputScore + '</td><td><p class="delete__btn" style="">X</p></td></tr>';
                 grades.push(newGradeRow);
-                console.log(grades);
 
                 var newGrades = grades.join('');
                 updateHTML(newGrades);
+
+                //Delete button setup
+                var deleteButtonList = document.querySelectorAll(DOMstrings.deleteBtns);
+                for(i=0; i<deleteButtonList.length; i++){
+                    deleteButtonList[i].addEventListener('click', UIController.deleteRow);
+                }
+                
                 
             }else{
                 alert('Please fill out all available fields.')
             }
-            
-
         },
+        
+        deleteRow: function(){
+            this.parentNode.parentNode.removeChild(this.parentNode);
+        },
+
         //Return DOM strings
         getDOMstrings: function() {
             return DOMstrings;
