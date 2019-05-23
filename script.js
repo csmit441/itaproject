@@ -29,35 +29,68 @@ function updateHTML(val, id = 'container') {
     document.getElementById(id).innerHTML = val;
 }
 
-//GRADEBOOK CONTROLLER
-var gradebookController = (function(){
-
-})();
 
 //UI CONTROLLER
 var UIController = (function(){
+    //DOM elements
     var DOMstrings = {
-        submitBtn: '#submit'
+        name: 'h1',
+        submitBtn: '#submit',
+        subjectInput: 'subject',
+        assignmentInput: 'assignment',
+        scoreInput: 'score',
+        tableBody: 'container'
     };
 
+    //Adding my name to the gradebook
+    var studentNamePlaceholder = document.querySelector(DOMstrings.name).innerHTML;
+    var studentName = studentNamePlaceholder.replace('%Insert Your Name Here%', 'Chris Smith');
+    document.querySelector(DOMstrings.name).innerHTML = studentName;
+    // studentNamePlaceholder.innerHTML = studentName <------Why does this not work?
+
+    let grades = [];
+
     return{
+        addRow: function(){
+            event.preventDefault();
+
+            //Get user input
+            var userInputSubject = getValue(DOMstrings.subjectInput);
+            var userInputAssignment = getValue(DOMstrings.assignmentInput);
+            var userInputScore = getValue(DOMstrings.scoreInput);
+            
+            //Run function if the user filled out the entire form
+            if(userInputSubject !== '' && userInputAssignment !== '' && userInputScore !== ''){
+
+                var newGradeRow = '<tr><td>' + userInputSubject + '</td><td>' + userInputAssignment + '</td><td>' + userInputScore + '</td></tr>';
+                grades.push(newGradeRow);
+                console.log(grades);
+
+                var newGrades = grades.join('');
+                updateHTML(newGrades);
+                
+            }else{
+                alert('Please fill out all available fields.')
+            }
+            
+
+        },
+        //Return DOM strings
         getDOMstrings: function() {
             return DOMstrings;
         }
-    }
+    }    
 })();
 
-//CONTROLLER
-var controller = (function(gradebookCtrl, UICtrl){
+// //CONTROLLER
+// var controller = (function(UICtrl){
 
-    //Set up event listeners
-    
-    var eventListenerSetup = function(){
-        var DOM = UICtrl.getDOMstrings();
+//     //Set up event listeners
 
-        document.querySelector(DOM.submitBtn);
-        
-    }
-    eventListenerSetup();
+//     var eventListenerSetup = function(){
+//         var DOM = UICtrl.getDOMstrings();
 
-})(gradebookController, UIController);
+//     }
+//     eventListenerSetup();
+
+// })(UIController);
