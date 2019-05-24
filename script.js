@@ -29,6 +29,7 @@ function updateHTML(val, id = 'container') {
     document.getElementById(id).innerHTML = val;
 }
 
+var deleteButtonList;
 
 //UI CONTROLLER
 var UIController = (function(){
@@ -48,6 +49,7 @@ var UIController = (function(){
     var studentName = studentNamePlaceholder.replace('%Insert Your Name Here%', 'Chris Smith');
     document.querySelector(DOMstrings.name).innerHTML = studentName;
     // studentNamePlaceholder.innerHTML = studentName <------Why does this not work?
+
 
     let grades = [];
 
@@ -71,9 +73,10 @@ var UIController = (function(){
                 updateHTML(newGrades);
 
                 //Delete button setup
-                var deleteButtonList = document.querySelectorAll(DOMstrings.deleteBtns);
+                deleteButtonList = document.querySelectorAll(DOMstrings.deleteBtns);
                 for(i=0; i<deleteButtonList.length; i++){
                     deleteButtonList[i].addEventListener('click', UIController.deleteRow);
+                    deleteButtonList[i].setAttribute('value', i);
                 }
                 
                 
@@ -83,7 +86,13 @@ var UIController = (function(){
         },
         
         deleteRow: function(){
-            this.parentNode.parentNode.removeChild(this.parentNode);
+            this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+            for(i=0; i<UIController.deleteButtonList.length; i++){
+                console.log(this);
+                if(this.value === i){
+                    deleteButtonList.splice(i+1, 1);
+                }
+            }
         },
 
         //Return DOM strings
