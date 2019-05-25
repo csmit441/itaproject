@@ -33,6 +33,7 @@ var deleteButtonList;
 
 //UI CONTROLLER
 var UIController = (function(){
+    
     //DOM elements
     var DOMstrings = {
         name: 'h1',
@@ -40,7 +41,7 @@ var UIController = (function(){
         subjectInput: 'subject',
         assignmentInput: 'assignment',
         scoreInput: 'score',
-        tableBody: 'container',
+        tableBody: '#container',
         deleteBtns: '.delete__btn'
     };
 
@@ -48,10 +49,7 @@ var UIController = (function(){
     var studentNamePlaceholder = document.querySelector(DOMstrings.name).innerHTML;
     var studentName = studentNamePlaceholder.replace('%Insert Your Name Here%', 'Chris Smith');
     document.querySelector(DOMstrings.name).innerHTML = studentName;
-    // studentNamePlaceholder.innerHTML = studentName <------Why does this not work?
-
-
-    let grades = [];
+    // studentNamePlaceholder.innerHTML = studentName;
 
     return{
         addRow: function(){
@@ -64,21 +62,17 @@ var UIController = (function(){
             
             //Run function if the user filled out the entire form
             if(userInputSubject !== '' && userInputAssignment !== '' && userInputScore !== ''){
-
-                //Add new row to array and print array to DOM
-                var newGradeRow = '<tr><td>' + userInputSubject + '</td><td>' + userInputAssignment + '</td><td>' + userInputScore + '</td><td><p class="delete__btn" style="">X</p></td></tr>';
-                grades.push(newGradeRow);
-
-                var newGrades = grades.join('');
-                updateHTML(newGrades);
-
+                
+                var mainContainer = document.querySelector(DOMstrings.tableBody);
+                
+                //Add new row to DOM 
+                mainContainer.innerHTML += '<tr><td>' + userInputSubject + '</td><td>' + userInputAssignment + '</td><td>' + userInputScore + '</td><td><p class="delete__btn" style="">X</p></td></tr>';
+                
                 //Delete button setup
                 deleteButtonList = document.querySelectorAll(DOMstrings.deleteBtns);
                 for(i=0; i<deleteButtonList.length; i++){
                     deleteButtonList[i].addEventListener('click', UIController.deleteRow);
-                    deleteButtonList[i].setAttribute('value', i);
                 }
-                
                 
             }else{
                 alert('Please fill out all available fields.')
@@ -87,12 +81,10 @@ var UIController = (function(){
         
         deleteRow: function(){
             this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
-            for(i=0; i<UIController.deleteButtonList.length; i++){
-                console.log(this);
-                if(this.value === i){
-                    deleteButtonList.splice(i+1, 1);
-                }
-            }
+        },
+
+        calcGPA: function(){
+            
         },
 
         //Return DOM strings
@@ -101,16 +93,3 @@ var UIController = (function(){
         }
     }    
 })();
-
-// //CONTROLLER
-// var controller = (function(UICtrl){
-
-//     //Set up event listeners
-
-//     var eventListenerSetup = function(){
-//         var DOM = UICtrl.getDOMstrings();
-
-//     }
-//     eventListenerSetup();
-
-// })(UIController);
