@@ -8,26 +8,43 @@
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />    
 </head>
 <body>
+    
     <h1>Grade book for %Insert Your Name Here%</h1>
     <form>
         <h2>Grades</h2>
         <label for="subject">Subject:</label>
         <input id="subject" type="text" name="subject">
-    
+        
         <label for="assignment">Assignment:</label>
         <input id="assignment" type="text" name="assignment">
-    
+        
         <label for="score">Score:</label>
         <input id="score" type="text" name="score">
-        
+            
         <input type="submit" value="Submit" id="submit" onclick="return UIController.addRow()">
     </form>
+
+    <!-- new markup -->
+    <div class="gpa-container">
+        <h3 class="gpa-header">Math:
+            <p id="gpa-math" class="gpa-percentage">-</p>
+        </h3>
+        <h3 class="gpa-header">Science:
+            <p id="gpa-science" class="gpa-percentage">-</p>
+        </h3>
+        <h3 class="gpa-header">History:
+            <p id="gpa-history" class="gpa-percentage">-</p>
+        </h3>
+    </div>
+    <!---------------->
+
     <table>
         <thead>
             <tr>
                 <th>Subject</th>
                 <th>Assignment</th>
                 <th>Score</th>
+                <!-- <th></th> -->
             </tr>
         </thead>
         <tbody id='container'>

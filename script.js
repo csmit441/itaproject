@@ -42,14 +42,20 @@ var UIController = (function(){
         assignmentInput: 'assignment',
         scoreInput: 'score',
         tableBody: '#container',
-        deleteBtns: '.delete__btn'
+        deleteBtns: '.delete__btn',
+        mathGPA: 'gpa-math',
+        scienceGPA: 'gpa-science',
+        historyGPA: 'gpa-history'
     };
 
     //Adding my name to the gradebook
-    var studentNamePlaceholder = document.querySelector(DOMstrings.name).innerHTML;
-    var studentName = studentNamePlaceholder.replace('%Insert Your Name Here%', 'Chris Smith');
-    document.querySelector(DOMstrings.name).innerHTML = studentName;
-    // studentNamePlaceholder.innerHTML = studentName;
+    var studentNamePlaceholder = document.querySelector(DOMstrings.name);
+    var studentName = studentNamePlaceholder.innerHTML.replace('%Insert Your Name Here%', 'Chris Smith');
+    studentNamePlaceholder.innerHTML = studentName;
+
+    var mathGrades = [];
+    var scienceGrades = [];
+    var historyGrades = [];
 
     return{
         addRow: function(){
@@ -63,6 +69,19 @@ var UIController = (function(){
             //Run function if the user filled out the entire form
             if(userInputSubject !== '' && userInputAssignment !== '' && userInputScore !== ''){
                 
+                //Push grades to corresponding arrays
+                if(userInputSubject === 'Math'){
+                    mathGrades.push(userInputScore);
+                }else if(userInputSubject === 'Science'){
+                    scienceGrades.push(userInputScore);
+                }else if(userInputSubject === 'History'){
+                    historyGrades.push(userInputScore);
+                }else{
+                    console.log('array.push is not working');
+                }
+
+                console.log(mathGrades);
+
                 var mainContainer = document.querySelector(DOMstrings.tableBody);
                 
                 //Add new row to DOM 
@@ -84,12 +103,10 @@ var UIController = (function(){
         },
 
         calcGPA: function(){
+            let math = getValue(DOMstrings.mathGPA).innerHTML;
+            let science = getValue(DOMstrings.scienceGPA).innerHTML;
+            let history = getValue(DOMstrings.historyGPA).innerHTML;
             
         },
-
-        //Return DOM strings
-        getDOMstrings: function() {
-            return DOMstrings;
-        }
-    }    
+    }   
 })();

@@ -55,5 +55,23 @@
   }
 
   h3 {
-      text-align: center;
+    text-align: center;
+  }
+
+  /* added code */
+  .gpa-container{
+    margin-top: 1em;
+    width: 14em;
+  }
+
+  .gpa-header{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 65px;
+  }
+
+  .gpa-percentage{
+    display:inline-block;
   }
