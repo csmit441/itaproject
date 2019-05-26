@@ -19,6 +19,10 @@ function getValue(id) {
     return document.getElementById(id).value;
 }
 
+function getElement(id) {
+    return document.getElementById(id);
+}
+
     //Provided a string as val and an HTML id as id, this function will set the value within a specified input element to the string provided.
 function setValue(val, id) {
     document.getElementById(id).value = val;
@@ -53,6 +57,7 @@ var UIController = (function(){
     var studentName = studentNamePlaceholder.innerHTML.replace('%Insert Your Name Here%', 'Chris Smith');
     studentNamePlaceholder.innerHTML = studentName;
 
+    //Grade data
     var mathGrades = [];
     var scienceGrades = [];
     var historyGrades = [];
@@ -71,16 +76,17 @@ var UIController = (function(){
                 
                 //Push grades to corresponding arrays
                 if(userInputSubject === 'Math'){
-                    mathGrades.push(userInputScore);
+                    const x = parseInt(userInputScore); 
+                    mathGrades.push(x);
                 }else if(userInputSubject === 'Science'){
-                    scienceGrades.push(userInputScore);
+                    const x = parseInt(userInputScore);
+                    scienceGrades.push(x);
                 }else if(userInputSubject === 'History'){
-                    historyGrades.push(userInputScore);
+                    const x = parseInt(userInputScore);
+                    historyGrades.push(x);
                 }else{
                     console.log('array.push is not working');
                 }
-
-                console.log(mathGrades);
 
                 var mainContainer = document.querySelector(DOMstrings.tableBody);
                 
@@ -92,21 +98,71 @@ var UIController = (function(){
                 for(i=0; i<deleteButtonList.length; i++){
                     deleteButtonList[i].addEventListener('click', UIController.deleteRow);
                 }
+
+                UIController.calcGPA(mathGrades, scienceGrades, historyGrades);
                 
             }else{
-                alert('Please fill out all available fields.')
+                alert('Please fill out all available fields.');
             }
         },
         
         deleteRow: function(){
+            //Remove row markup
             this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+
+            //Get data from delete row
+            var DOMscore = parseInt(this.parentNode.parentNode.children[2].innerHTML);
+            var arr = this.parentNode.parentNode.firstChild.innerHTML.toLowerCase();
+            var newArr = eval(arr + 'Grades');
+
+            //Find the removed markup in the array and remove it from array
+            for(i=0; i<newArr.length; i++){
+                if(newArr[i] === DOMscore){
+                    newArr.splice(newArr.indexOf(newArr[i]),1);
+                    console.log(newArr);
+                    break;
+                }
+            }
+            
+            UIController.calcGPA(mathGrades, scienceGrades, historyGrades);
         },
 
-        calcGPA: function(){
-            let math = getValue(DOMstrings.mathGPA).innerHTML;
-            let science = getValue(DOMstrings.scienceGPA).innerHTML;
-            let history = getValue(DOMstrings.historyGPA).innerHTML;
+        calcGPA: function(mathScores, scienceScores, historyScores){
+            var mathElement = getElement(DOMstrings.mathGPA);
+            var scienceElement = getElement(DOMstrings.scienceGPA);
+            var historyElement = getElement(DOMstrings.historyGPA);
             
+            //1. Math avg
+            if(mathGrades.length != 0){
+                var mathSum = 0;
+                for(i=0; i<mathScores.length; i++){
+                    mathSum += mathScores[i];
+                }
+                var mathAvg = parseInt(mathSum / mathGrades.length) + '%';
+                mathElement.innerHTML = mathAvg;
+            }else{
+                mathElement.innerHTML = '-';
+            }
+            
+            //2. Science avg
+            if(scienceGrades.length != 0){    
+                var scienceSum = 0;
+                for(i=0; i<scienceScores.length; i++){
+                    scienceSum += scienceScores[i];
+                }
+                var scienceAvg = parseInt(scienceSum / scienceGrades.length) + '%';
+                scienceElement.innerHTML = scienceAvg;
+            }
+
+            //3. History avg
+            if(historyGrades.length != 0){
+                var historySum = 0;
+                for(i=0; i<historyScores.length; i++){
+                    historySum += historyScores[i];
+                }
+                var historyAvg = parseInt(historySum / historyGrades.length) + '%';
+                historyElement.innerHTML = historyAvg;
+            }
         },
     }   
 })();
