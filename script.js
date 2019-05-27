@@ -49,7 +49,9 @@ var UIController = (function(){
         deleteBtns: '.delete__btn',
         mathGPA: 'gpa-math',
         scienceGPA: 'gpa-science',
-        historyGPA: 'gpa-history'
+        historyGPA: 'gpa-history',
+        average: 'average',
+        gpa: 'gpa'
     };
 
     //Adding my name to the gradebook
@@ -99,7 +101,7 @@ var UIController = (function(){
                     deleteButtonList[i].addEventListener('click', UIController.deleteRow);
                 }
 
-                UIController.calcGPA(mathGrades, scienceGrades, historyGrades);
+                UIController.calcGrade(mathGrades, scienceGrades, historyGrades);
                 
             }else{
                 alert('Please fill out all available fields.');
@@ -119,20 +121,19 @@ var UIController = (function(){
             for(i=0; i<newArr.length; i++){
                 if(newArr[i] === DOMscore){
                     newArr.splice(newArr.indexOf(newArr[i]),1);
-                    console.log(newArr);
                     break;
                 }
             }
             
-            UIController.calcGPA(mathGrades, scienceGrades, historyGrades);
+            UIController.calcGrade(mathGrades, scienceGrades, historyGrades);
         },
 
-        calcGPA: function(mathScores, scienceScores, historyScores){
+        calcGrade: function(mathScores, scienceScores, historyScores){
             var mathElement = getElement(DOMstrings.mathGPA);
             var scienceElement = getElement(DOMstrings.scienceGPA);
             var historyElement = getElement(DOMstrings.historyGPA);
             
-            //1. Math avg
+            //1. Math grade
             if(mathGrades.length != 0){
                 var mathSum = 0;
                 for(i=0; i<mathScores.length; i++){
@@ -144,7 +145,7 @@ var UIController = (function(){
                 mathElement.innerHTML = '-';
             }
             
-            //2. Science avg
+            //2. Science grade
             if(scienceGrades.length != 0){    
                 var scienceSum = 0;
                 for(i=0; i<scienceScores.length; i++){
@@ -152,9 +153,11 @@ var UIController = (function(){
                 }
                 var scienceAvg = parseInt(scienceSum / scienceGrades.length) + '%';
                 scienceElement.innerHTML = scienceAvg;
+            }else{
+                scienceElement.innerHTML = '-';
             }
 
-            //3. History avg
+            //3. History grade
             if(historyGrades.length != 0){
                 var historySum = 0;
                 for(i=0; i<historyScores.length; i++){
@@ -162,7 +165,52 @@ var UIController = (function(){
                 }
                 var historyAvg = parseInt(historySum / historyGrades.length) + '%';
                 historyElement.innerHTML = historyAvg;
+            }else{
+                historyElement.innerHTML = '-';
             }
+
+            UIController.calcGPA(mathAvg, scienceAvg, historyAvg);
         },
+        
+        calcGPA: function(math, science, history){
+            //Make array from pass data
+            let arr = [math, science, history];
+            let gpaPoints = [];
+            console.log(gpaPoints);
+
+            //Slice % symbol off end of string and assign to gpa points
+            for(i=0; i<arr.length; i++){
+                if(arr[i] !== undefined){
+                    let x = arr[i].slice(0, -1);
+
+                    if(x >= 90){
+                        gpaPoints.push(4);
+                    }else if(x >= 80 && x < 90){
+                        gpaPoints.push(3);
+                    }else if(x >= 70 && x < 80){
+                        gpaPoints.push(2);
+                    }else if(x >= 60 && x < 70){
+                        gpaPoints.push(1);
+                    }else{
+                        gpaPoints.push(0);
+                    }
+                }
+            }
+
+            //Calculate the average of the gpa points
+            let sum = 0;
+            for(i=0; i<gpaPoints.length; i++){
+                sum += gpaPoints[i];
+            }
+
+            let gpa = (sum / gpaPoints.length).toFixed(2);
+            let DOMavg = getElement(DOMstrings.gpa);
+
+            if (gpaPoints.length != 0) {
+                DOMavg.innerHTML = gpa;    
+            }else {
+                DOMavg.innerHTML = '-';
+            }
+        }
     }   
 })();
