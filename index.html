@@ -5,20 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Grade Book</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />    
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />  
 </head>
 <body>
 
     <h1>Grade book for %Insert Your Name Here%</h1>
     <h3 id="average">GPA: <span id="gpa">-</span></h3> 
 
-    <form>
+    <form action="test" name="mainForm">
         <h2>Grades</h2>
         <label for="subject">Subject:</label>
-        <input id="subject" type="text" name="subject">
+        <input id="subject" type="text" name="subject" required>
         
         <label for="assignment">Assignment:</label>
-        <input id="assignment" type="text" name="assignment">
+        <input id="assignment" type="text" name="assignment" required>
         
         <label for="score">Score:</label>
         <input id="score" type="text" name="score">
@@ -53,7 +53,11 @@
         </tbody>
     </table>
 
+    <!-- <script src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+    <script src="form-validation.js"></script> -->
     <script src="script.js"></script>
+    
 
 </body>
 </html>

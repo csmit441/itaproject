@@ -139,7 +139,7 @@ var UIController = (function(){
                 for(i=0; i<mathScores.length; i++){
                     mathSum += mathScores[i];
                 }
-                var mathAvg = parseInt(mathSum / mathGrades.length) + '%';
+                var mathAvg = parseInt(mathSum / mathGrades.length).toFixed(2) + '%';
                 mathElement.innerHTML = mathAvg;
             }else{
                 mathElement.innerHTML = '-';
@@ -151,7 +151,7 @@ var UIController = (function(){
                 for(i=0; i<scienceScores.length; i++){
                     scienceSum += scienceScores[i];
                 }
-                var scienceAvg = parseInt(scienceSum / scienceGrades.length) + '%';
+                var scienceAvg = parseInt(scienceSum / scienceGrades.length).toFixed(2) + '%';
                 scienceElement.innerHTML = scienceAvg;
             }else{
                 scienceElement.innerHTML = '-';
@@ -163,7 +163,7 @@ var UIController = (function(){
                 for(i=0; i<historyScores.length; i++){
                     historySum += historyScores[i];
                 }
-                var historyAvg = parseInt(historySum / historyGrades.length) + '%';
+                var historyAvg = parseInt(historySum / historyGrades.length).toFixed(2) + '%';
                 historyElement.innerHTML = historyAvg;
             }else{
                 historyElement.innerHTML = '-';
