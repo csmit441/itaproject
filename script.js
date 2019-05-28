@@ -72,6 +72,18 @@ var UIController = (function(){
             var userInputSubject = getValue(DOMstrings.subjectInput);
             var userInputAssignment = getValue(DOMstrings.assignmentInput);
             var userInputScore = getValue(DOMstrings.scoreInput);
+
+            //Formats user input if they submit a lowercase subject name.
+            //This was hacked together bc of time constraints. Will break down if user submits typo
+            if(userInputSubject === 'math' || userInputSubject === 'science' || userInputSubject === 'history'){
+                if(userInputSubject === 'math'){
+                    userInputSubject = 'Math';
+                }else if(userInputSubject === 'science'){
+                    userInputSubject = 'Science';
+                }else{
+                    userInputSubject = 'History';
+                }
+            }    
             
             //Run function if the user filled out the entire form
             if(userInputSubject !== '' && userInputAssignment !== '' && userInputScore !== ''){
